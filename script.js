@@ -87,11 +87,19 @@ document.querySelector('.overlap-3').addEventListener('click', async () => {
       body: JSON.stringify({mode, mach, aoa, ln, swept, lln})
     });
 
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
     const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || "Lỗi không xác định từ server");
+      return;
+    }
+
     document.querySelector(".text-wrapper-18").textContent = data.cl;
     document.querySelector(".text-wrapper-16").textContent = data.cd;
+
+    if (data.warning) {
+      alert(data.warning);
+    }
   } catch (err) {
     console.error("Lỗi:", err);
     alert("Không kết nối được với server: " + err.message);
@@ -108,6 +116,8 @@ function updateFieldLocking(mode) {
   sweptInput.readOnly = !isNASA;
 
   if (!isNASA) {
+    machInput.value = 0;
+    aoaInput.value = 0;
     lnInput.value = 19.32;
     sweptInput.value = 16.54;
   }
