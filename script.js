@@ -81,7 +81,7 @@ document.querySelector('.overlap-3').addEventListener('click', async () => {
       return;
     }
 
-    const response = await fetch("https://missile-aerodynamic.glitch.me/predict", {
+    const response = await fetch("https://missile-aerodynamic.glitch.me", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({mode, mach, aoa, ln, swept, lln})
