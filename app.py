@@ -29,6 +29,18 @@ def predict():
         lln = float(data['lln'])
 
         if mode == "NASA":
+            if mach < 1.2:
+                return jsonify({"error": "Giá trị Mach phải lớn hơn hoặc bằng 1.2"}), 400
+            elif 1.2 <= mach <= 1.6:
+                warning_msg = "Kết quả dự đoán có thể sai số lớn"
+            elif mach >= 4:
+                warning_msg = "Kết quả dự đoán có thể sai số lớn"
+            else:
+                warning_msg = ""
+
+            if not (1 <= ln <= 20.32):
+                return jsonify({"error": "Chiều dài mũi (Ln) phải nằm trong khoảng 1 đến 20.32"}), 400
+            
             model_cl_path = os.path.join(MODEL_DIR, "NASA_cl.h5")
             model_cd_path = os.path.join(MODEL_DIR, "NASA_cd.h5")
             scaler_path = os.path.join(MODEL_DIR, "NASA.pkl")
@@ -105,7 +117,8 @@ def predict():
 
         return jsonify({
             "cl": round(cl_pred, 5),
-            "cd": round(cd_pred, 5)
+            "cd": round(cd_pred, 5),
+            "warning": warning_msg if mode == "NASA" else ""
         })
 
     except Exception as e:
