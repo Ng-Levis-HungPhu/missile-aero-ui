@@ -32,9 +32,9 @@ def predict():
             if mach < 1.2:
                 return jsonify({"error": "Giá trị Mach phải lớn hơn hoặc bằng 1.2"}), 400
             elif 1.2 <= mach <= 1.6:
-                warning_msg = "Kết quả dự đoán có thể sai số lớn"
+                warning_msg = "Kết quả dự đoán có thể sai số lên đến 30%"
             elif mach >= 4:
-                warning_msg = "Kết quả dự đoán có thể sai số lớn"
+                warning_msg = "Kết quả dự đoán có thể sai số lên đến 50%"
             else:
                 warning_msg = ""
 
